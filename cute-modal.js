@@ -66,7 +66,7 @@ class CuteModal extends HTMLElement {
         type: config.type,
         closeStyle: config.closeStyle || 'circle',
         title: config.title || 'Default Title',
-        message: config.content || 'This is my message to you.',
+        message: config.message || 'This is my message to you.',
         confirmText: config.confirmText || 'Yes',
         cancelText: config.cancelText || 'No',
         buttonText: config.buttonText || 'Okay',
