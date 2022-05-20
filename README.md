@@ -5,7 +5,7 @@ Cute Modal is a web component that provides
 - a toast notification for errors, informations, success, or warnings with varying time displays.
 - a loading modal for ajax calls.
 
-This component is based on cuteAlert.js, [Cute Alert js](https://github.com/gustavosmanc/cute-alert), by Gustavo Mancuzo. The stylesheet and images were copied from this project.
+This component is appreciatively based on cuteAlert.js, [Cute Alert js](https://github.com/gustavosmanc/cute-alert), by Gustavo Mancuzo. The stylesheet and images were copied from this project.
 
 ## Installation
 
