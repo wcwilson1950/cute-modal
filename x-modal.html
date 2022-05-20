@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>cute-modal</title>
+</head>
+
+<body>
+  <h3>Modal Test</h3>
+
+  <button class="open">Open 1</button>
+  <button class="open-error">Error 1</button>
+  <button class="show-toast">Show Toast</button>
+  <button class="show-loading">Show Loading</button>
+
+  <cute-modal></cute-modal>
+  <script src="./cute-modal.js"></script>
+
+  <script>
+    const modal = document.querySelector("cute-modal");
+    modal.addEventListener("modal-cancel", function () {
+      console.log("cancel event raised");
+    });
+    modal.addEventListener("modal-ok", function (payload) {
+      console.log("ok event raised");
+      console.log(payload);
+    });
+    modal.addEventListener('modal-close',function(){
+      console.log("close event raised");
+    })
+    const open = document.querySelector(".open");
+    open.addEventListener("click", function () {
+      cuteModal({
+        type: 'question',
+        title: 'Please Confirm:',
+        content: 'Click below to confirm your immediate upgrade to the monthly All-Access Membership at $50.00. You will be credited a prorated amount for the remainder of your current billing cycle.',
+        confirmText: 'Yes',
+        cancelText: 'Cancel',
+        payload: {action: 'upg_aa_monthly',title: 'Upgrade All-Access Monthly Membership.'}
+      });
+  })
+  const open_error = document.querySelector(".open-error");
+  open_error.addEventListener("click", function () {
+      cuteModal({
+        type: 'error',
+        title: 'Something Failed',
+        content: 'Internal System Error.',
+        buttonText: 'Okay :-(',
+      });
+  })
+const show_toast = document.querySelector('.show-toast');
+show_toast.addEventListener('click',e => {
+  cuteToast('Info Notification!','info',8000).then(message => console.log(message));
+  cuteToast('Success Notification!','success',7000);
+  cuteToast('Warning Notification!','warning',6000);
+  cuteToast('Error Notification!','error',5000);
+})
+const show_loading = document.querySelector('.show-loading');
+show_loading.addEventListener('click',e => {
+  cuteLoadWait(true);
+  setTimeout(() => cuteLoadWait(false),5000);
+})
+
+  </script>
+
+</body>
+
+</html>
