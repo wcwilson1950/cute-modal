@@ -79,6 +79,21 @@ cuteToast('Info Notification!','info',8000).then((data) => console.log(data.mess
 cuteLoadWait(true) --- turn on the modal wait
 cuteLoadWait(false) --- turn off the modal wait
 ```
+## What I learned
+I learned the following:
+1. How to build a web component that uses a mode = 'closed'. The secret is to save the returned value of the function attachShadow in a variable. This is the shadowRoot that can be referenced through the class to access child components.
+2. The web component life cycle. They are:
+- constructor() where you can attachShadow and add Event Listeners for the web component.
+- connectedCallback() where you can get/set attributes. I set the external style here and toast container.
+- disconnectedCallback() -- clean up resources. Not used.
+- attributeChangedCallback(attrName, oldVal, newVal) when an attribute changes. Not used. There were not observable attributes.
+- adoptedCallback() -- when component is adopted in the DOM. Not used.
+3. Interact with the web component through events. Add Event listeners and build custom events to dispatch.
+4. Load an external style sheet.
+5. Distinguish between different events and the **once** option on the addEventListener function.
+6. Returning a promise that waits for a specific event before resolving.
+7. The use of private variables and functions in class definitions.
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
