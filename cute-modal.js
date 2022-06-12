@@ -9,6 +9,9 @@ class CuteModal extends HTMLElement {
     this.addEventListener('modal-open', (e) => {
       this.#handleOpen(e.detail);
     });
+    this.addEventListener('options-open', (e) => {
+      this.#handleOptions(e.detail);
+    });
     this.addEventListener('notify', (e) => {
       this.#handleToast(e.detail);
     });
@@ -32,7 +35,8 @@ class CuteModal extends HTMLElement {
           }
         }
       }
-      this.#shadowRoot.innerHTML = `<link rel="stylesheet" href="${this.#src}css/style.css"><div class="toaster"></div>`;
+      const src = this.#src.replace(/\?.*$/, '');
+      this.#shadowRoot.innerHTML = `<link rel="stylesheet" href="${src}css/style.css"><div class="toaster"></div>`;
       this.#toastContainer = this.#shadowRoot.querySelector('.toaster');
     }
   }
@@ -74,9 +78,35 @@ class CuteModal extends HTMLElement {
         payload: config.payload || {}
       }
     }
-    this.#render(data);
+    this.#renderModal(data);
     this.#attachEventHandlers(data.payload);
   }
+  #handleOptions(config) {
+    let data;
+    if (!config) {
+      data = {
+        type: 'info',
+        closeStyle: 'circle',
+        title: 'Default Title',
+        message: 'This is my message to you.',
+        confirmText: 'Yes',
+        cancelText: 'No',
+        buttonText: 'Okay',
+        buttons: 'columns',
+        payload: {}
+      }
+    } else {
+      data = {
+        closeStyle: config.closeStyle || 'circle',
+        title: config.title || 'Default Title',
+        cancelText: config.cancelText || 'No options I like.',
+        options: config.options || []
+      }
+    }
+    this.#renderOptions(data);
+    this.#attachOptionsEvents(data);
+  }
+
   #handleLoading(config) {
     const div_loader = `<div id="m_loading"><img id="loading-image" src="${this.#src}img/ajax-loader.gif" alt="Loading..." /></div>`;
     if (config.bOn) {
@@ -148,7 +178,7 @@ class CuteModal extends HTMLElement {
     });
   }
 
-  #render(config) {
+  #renderModal(config) {
     const container = document.createElement("div");
 
     let btnTemplate = `
@@ -187,6 +217,35 @@ class CuteModal extends HTMLElement {
 
     this.#shadowRoot.appendChild(container);
   }
+  #renderOptions(config) {
+    const optionsList = config.options.map(option => {
+      return `<ul class="an-option">
+      <li class="title"><h2>${option.title}</h2></li>
+      <li class="message">${option.message}</li>
+      <li><a class="optionbutton" href="javascript:void(0)">${option.buttonText}</a></li></ul>`;
+    });
+
+    const container = document.createElement("div");
+    container.innerHTML = `
+<div class="alert-wrapper">
+  <div class="options-frame">
+    <header>${config.title}<span class="alert-close ${config.closeStyle === 'circle'
+        ? 'alert-close-circle'
+        : 'alert-close-default'
+      }">X</span></header>    
+    <main class="options-main">${optionsList}</main>
+    <footer><a class="cancel" href="javascript:void(0)">${config.cancelText}</a></footer>
+  </div>
+</div>
+    `;
+
+    if (this.#alert_wrapper) {
+      this.#alert_wrapper.remove();
+    }
+
+    this.#shadowRoot.appendChild(container);
+  }
+
   #destroyModal() {
     this.#alert_wrapper.remove();
     this.#alert_wrapper = null;
@@ -224,6 +283,24 @@ class CuteModal extends HTMLElement {
     }
     this.#alert_wrapper = this.#shadowRoot.querySelector('.alert-wrapper')
   }
+
+  #attachOptionsEvents(payload) {
+    const cancelButton = this.#shadowRoot.querySelector(".cancel");
+    if (cancelButton) {
+      cancelButton.addEventListener('click', e => {
+        this.dispatchEvent(new CustomEvent("options-cancel"))
+        this.#destroyModal();
+      });
+      this.#alert_wrapper = this.#shadowRoot.querySelector('.alert-wrapper');
+    }
+    const closeButton = this.#shadowRoot.querySelector(".alert-close");
+    if (closeButton) {
+      closeButton.addEventListener('click', e => {
+        this.dispatchEvent(new CustomEvent("options-close"));
+        this.#destroyModal();
+      });
+    }
+  }
 }
 window.customElements.define('cute-modal', CuteModal);
 
@@ -257,5 +334,10 @@ cuteLoadWait = (bOn) => {
   const bOnBool = Boolean(bOn);
   document.querySelector('cute-modal').dispatchEvent(new CustomEvent('loading-show', {
     detail: { bOn: bOnBool }
+  }));
+}
+cuteOptions = (config) => {
+  document.querySelector('cute-modal').dispatchEvent(new CustomEvent('options-open', {
+    detail: { ...config }
   }));
 }

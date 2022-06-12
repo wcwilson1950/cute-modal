@@ -11,6 +11,7 @@
 
   <button class="open">Open 1</button>
   <button class="open-error">Error 1</button>
+  <button class="show-options">Show Options</button>
   <button class="show-toast">Show Toast</button>
   <button class="show-loading">Show Loading</button>
 
@@ -39,6 +40,16 @@
         cancelText: 'Cancel',
         payload: {action: 'upg_aa_monthly',title: 'Upgrade All-Access Monthly Membership.'}
       });
+  });
+  const options = document.querySelector('.show-options');
+  options.addEventListener('click',function() {
+    cuteOptions({
+      title: "Upgrade to the Monthly All-Access Membership",
+      options: [
+        {title: 'Option 1',message: 'You can upgrade today for {PRICE}/month and get your All-Access content immediately, but you will not receive credit for the remainder of any free coupon period.',buttonText: 'Upgrade Now!', payload: {action: 'upg_maa_now', title: 'Upgrade to the Monthly All-Access Membership'}},
+        {title: 'Option 2',message: 'You can upgrade on {end-of-current-month date} for {PRICE}/month. Your All-Access Membership will begin that day.',buttonText: 'Upgrade Later', payload: {action: 'upg_maa_later',title: 'Upgrade to the Monthly All-Access Membership'}}],
+      cancelText: "I don't need to make any changes at this time. <u>Cancel Upgrade.</u>"
+    })
   })
   const open_error = document.querySelector(".open-error");
   open_error.addEventListener("click", function () {

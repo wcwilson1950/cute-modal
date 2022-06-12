@@ -408,3 +408,133 @@
 #loading-image {
   z-index: 100;
 }
+.options-frame {
+  font-family: 'Open Sans', sans-serif;
+  background: #fff;
+  padding: 2em 3em;
+  min-height: 400px;
+  min-width: 300px;
+  box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.2);
+  border-radius: 10px;
+  animation: open-frame 0.3s linear;
+  display:flex;
+  flex-direction: column;
+}
+.options-frame header {
+  text-align:center;
+  font-family: 'Dosis', sans-serif;
+  font-weight: 700;
+  font-size:24px;
+padding-bottom:1em;
+}
+.options-frame header .alert-close {
+  position:relative;
+  top:-35px;
+  right: -15px;
+}
+.options-frame footer {
+  text-align:center;
+}
+.options-frame footer a {
+  text-decoration: none;
+  color:#000000;  
+}
+.options-main{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  flex: 2;
+}
+
+.options-main ul.an-option{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  color: black;
+  background:#f6f6f6;
+  width: 260px; /* width of each table */
+  margin-right: 20px; /* spacing between tables */
+  margin-bottom: 1em;
+  border: 1px solid gray;
+  transition: all .5s;
+}
+
+.options-main ul.an-option:hover{ /* when mouse hover over pricing table */
+  transform: scale(1.05);
+  transition: all .5s;
+  z-index: 100;
+  box-shadow: 0 0 10px gray;
+}
+
+.options-main ul.an-option .center{
+  margin: 0 auto;
+  text-align: center;
+}
+
+.options-main ul.an-option img{
+  max-width: 80%;
+  height: auto;
+}
+
+.options-main ul.an-option li{
+  padding: 10px 10px;
+  position: relative;
+  border-bottom: 1px solid #eee;
+  background: #f6f6f6;
+}
+
+.options-main ul.an-option li.title {
+  font-weight: bold;
+  text-align: center;
+  padding: 1em 1em;
+  color: white;
+}
+.options-main ul.an-option li.title h2 {
+  background: #000000;
+  padding: .25em;
+}
+.options-main ul.an-option li.message {
+  text-align: center;
+}
+.options-main ul.an-option:last-of-type{ /* remove right margin in very last table */
+  margin-right: 0;
+}
+
+/*very last LI within each pricing UL */
+.options-main ul.an-option li:last-of-type{
+  text-align: center;
+  margin-top: auto; /*align last LI (price botton li) to the very bottom of UL */
+}  
+
+.options-main a.optionbutton{
+  background: #91CE28;
+  text-decoration: none;
+  padding: 10px;
+  display: inline-block;
+  margin: 10px auto;
+  border-radius: 5px;
+  color: black;
+  border-radius: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+  .options-main ul.an-option{
+    border-radius: 0;
+    width: 100%;
+    margin-right: 0;
+  }
+  
+  .options-main ul.an-option:hover{
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .options-main a.optionbutton{
+    display: block;
+  }
+}

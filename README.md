@@ -2,11 +2,13 @@
 
 Cute Modal is a web component that provides
 - a modal confirmation dialog, or a single button modal acknowledgement for error, information, success or warnings.
+- a modal with multiple selections. Designed in the spirit of price tables, allows user to select one option or cancel the modal.
 - a toast notification for errors, informations, success, or warnings with varying time displays.
 - a loading modal for ajax calls.
 
 This component is appreciatively based on cuteAlert.js, [Cute Alert js](https://github.com/gustavosmanc/cute-alert), by Gustavo Mancuzo. The stylesheet and images were copied from this project.
 
+The options panel is based on the article by Jon Muller, [Creating an Equal Height Pricing Table using CSS Flexbox](http://www.javascriptkit.com/dhtmltutors/css-pricing-table.shtml).
 ## Installation
 
 - Clone this repository into your project's lib folder.
@@ -22,11 +24,11 @@ There is only one attribute, **media-path**, which should be the location of the
 
 ## Usage
 
-There are 3 functions exported from the javascript file:
+There are 4 functions exported from the javascript file:
 - cuteModal display a one or two button confirmation modal. The two button modal has a type of **question**
 - cuteToast display a toast timed message
 - cuteLoadWait display/hide a modal ajax load.
-
+- cuteOptions displays options modal.
 ### cuteModal
 
 ```javascript
