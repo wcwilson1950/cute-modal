@@ -393,20 +393,53 @@
 .info-bg {
   background: #88cef7;
 }
-#m_loading {
+.loader-wrapper .loader {
+  width: 150px; /* control the size */
+  aspect-ratio: 1;
+  display: grid;
+  -webkit-mask: conic-gradient(from 15deg, #0003,#000);
+          mask: conic-gradient(from 15deg, #0003,#000);
+  animation: load 1s steps(12) infinite;
+}
+.loader-wrapper .loader,
+.loader-wrapper .loader:before,
+.loader-wrapper .loader:after{
+  background:
+    radial-gradient(circle closest-side ,currentColor 90%,#0000 98%) 
+    50% -150%/20% 80% repeat-y,
+    radial-gradient(circle closest-side ,currentColor 90%,#0000 98%) 
+    -150% 50%/80% 20% repeat-x;
+}
+.loader-wrapper .loader:before,
+.loader-wrapper .loader:after{
+  content: "";
+  grid-area: 1/1;
+  transform: rotate(30deg);
+}
+.loader-wrapper .loader:after{
+  transform: rotate(60deg);
+}
+@keyframes load {
+  from {transform: rotate(0turn)}
+  to   {transform: rotate(1turn)}
+}
+
+
+.loader-wrapper {
   position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  place-items: center;
+  grid-auto-flow: column;
+  gap: 50px;
+  z-index: 100;
   width: 100vw;height: 100vh;
   top: 0;
   left: 0;
   opacity: 0.7;
-  background-color: #fff;
-  z-index: 99;
-}
-#loading-image {
-  z-index: 100;
+  background-color: #fff;  
 }
 .options-frame {
   font-family: 'Open Sans', sans-serif;
@@ -434,10 +467,14 @@ padding-bottom:1em;
 }
 .options-frame footer {
   text-align:center;
+  margin-top: .25em;
+  border-top: 1px solid black;
 }
 .options-frame footer a {
+  display:inline-block;
+  margin-top: .25em;
   text-decoration: none;
-  color:#000000;  
+  color:#000000;
 }
 .options-main{
   display: flex;
@@ -460,7 +497,7 @@ padding-bottom:1em;
   width: 260px; /* width of each table */
   margin-right: 20px; /* spacing between tables */
   margin-bottom: 1em;
-  border: 1px solid gray;
+  border: 1px solid #f6f6f6;
   transition: all .5s;
 }
 
@@ -509,7 +546,7 @@ padding-bottom:1em;
 .options-main ul.an-option li:last-of-type{
   text-align: center;
   margin-top: auto; /*align last LI (price botton li) to the very bottom of UL */
-}  
+}
 
 .options-main a.optionbutton{
   background: #91CE28;
@@ -528,12 +565,12 @@ padding-bottom:1em;
     width: 100%;
     margin-right: 0;
   }
-  
+
   .options-main ul.an-option:hover{
     transform: none;
     box-shadow: none;
   }
-  
+
   .options-main a.optionbutton{
     display: block;
   }

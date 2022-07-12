@@ -1,3 +1,9 @@
+/**
+ * Ditch the ajax image in favor of a one element div, suggested by
+ * 
+ * https://css-tricks.com/single-element-loaders-the-spinner/
+ * 
+ */
 class CuteModal extends HTMLElement {
   #shadowRoot;
   #toastContainer;
@@ -108,16 +114,16 @@ class CuteModal extends HTMLElement {
   }
 
   #handleLoading(config) {
-    const div_loader = `<div id="m_loading"><img id="loading-image" src="${this.#src}img/ajax-loader.gif" alt="Loading..." /></div>`;
+    const div_loader = `<div class="loader-wrapper"><div class="loader" style="color:${config.color}"></div></div>`;
     if (config.bOn) {
       // turn on afterbegin
-      if (!this.#shadowRoot.querySelector('#m_loading')) {
+      if (!this.#shadowRoot.querySelector('.loader-wrapper')) {
         this.#shadowRoot.querySelector('.toaster').insertAdjacentHTML('beforebegin', div_loader);
       }
     } else {
       // turn off
-      if (this.#shadowRoot.querySelector('#m_loading')) {
-        this.#shadowRoot.querySelector('#m_loading').remove();
+      if (this.#shadowRoot.querySelector('.loader-wrapper')) {
+        this.#shadowRoot.querySelector('.loader-wrapper').remove();
       }
     }
   }
@@ -223,7 +229,7 @@ class CuteModal extends HTMLElement {
       <li class="title"><h2>${option.title}</h2></li>
       <li class="message">${option.message}</li>
       <li><a class="optionbutton" href="javascript:void(0)">${option.buttonText}</a></li></ul>`;
-    });
+    }).join('');
 
     const container = document.createElement("div");
     container.innerHTML = `
@@ -236,8 +242,7 @@ class CuteModal extends HTMLElement {
     <main class="options-main">${optionsList}</main>
     <footer><a class="cancel" href="javascript:void(0)">${config.cancelText}</a></footer>
   </div>
-</div>
-    `;
+</div>`;
 
     if (this.#alert_wrapper) {
       this.#alert_wrapper.remove();
@@ -284,14 +289,14 @@ class CuteModal extends HTMLElement {
     this.#alert_wrapper = this.#shadowRoot.querySelector('.alert-wrapper')
   }
 
-  #attachOptionsEvents(payload) {
+  #attachOptionsEvents(options) {
     const cancelButton = this.#shadowRoot.querySelector(".cancel");
+
     if (cancelButton) {
       cancelButton.addEventListener('click', e => {
         this.dispatchEvent(new CustomEvent("options-cancel"))
         this.#destroyModal();
       });
-      this.#alert_wrapper = this.#shadowRoot.querySelector('.alert-wrapper');
     }
     const closeButton = this.#shadowRoot.querySelector(".alert-close");
     if (closeButton) {
@@ -300,6 +305,7 @@ class CuteModal extends HTMLElement {
         this.#destroyModal();
       });
     }
+    this.#alert_wrapper = this.#shadowRoot.querySelector('.alert-wrapper');
   }
 }
 window.customElements.define('cute-modal', CuteModal);
@@ -330,10 +336,10 @@ cuteModal = (config) => {
     detail: { ...config }
   }));
 }
-cuteLoadWait = (bOn) => {
+cuteLoadWait = (bOn, color = 'green') => {
   const bOnBool = Boolean(bOn);
   document.querySelector('cute-modal').dispatchEvent(new CustomEvent('loading-show', {
-    detail: { bOn: bOnBool }
+    detail: { bOn: bOnBool, color }
   }));
 }
 cuteOptions = (config) => {

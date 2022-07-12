@@ -11,7 +11,8 @@
 
   <button class="open">Open 1</button>
   <button class="open-error">Error 1</button>
-  <button class="show-options">Show Options</button>
+  <button class="show-option">Show 1 Option</button>
+  <button class="show-options">Show 2 Options</button>
   <button class="show-toast">Show Toast</button>
   <button class="show-loading">Show Loading</button>
 
@@ -41,6 +42,16 @@
         payload: {action: 'upg_aa_monthly',title: 'Upgrade All-Access Monthly Membership.'}
       });
   });
+  const option = document.querySelector('.show-option');
+  option.addEventListener('click',function() {
+    cuteOptions({
+      title: "Upgrade to the Annual Core Membership",
+      options: [
+        {title: 'Option 1',message: 'If you choose to upgrade to the Annual Core Membership, you will be charged $200 once your current month of Core Membership is finished on {end-of-current-month date}.',buttonText: 'Upgrade My Membership!', payload: {action: 'upg_ac_now', title: 'Upgrade to the Annual Core Membership'}}],
+      cancelText: "I don't need to make any changes at this time. <u>Cancel Upgrade.</u>"
+    })
+  })
+
   const options = document.querySelector('.show-options');
   options.addEventListener('click',function() {
     cuteOptions({
@@ -69,7 +80,7 @@ show_toast.addEventListener('click',e => {
 })
 const show_loading = document.querySelector('.show-loading');
 show_loading.addEventListener('click',e => {
-  cuteLoadWait(true);
+  cuteLoadWait(true,'#800020');
   setTimeout(() => cuteLoadWait(false),5000);
 })
 
