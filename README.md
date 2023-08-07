@@ -63,8 +63,12 @@ cuteModal({
 ### cuteModal
 
 ```javascript
-cuteToast('Info Notification!','info',8000);
+cuteModal('info','Info Title','Infomational Message.');
 ```
+```javascript
+cuteModal('question','Question Title','Question to answer.','Yes','No');
+```
+
 #### Arguments
 1. message - the toast message
 2. type - 'error','info', 'success', 'warning' *default 'info'*
